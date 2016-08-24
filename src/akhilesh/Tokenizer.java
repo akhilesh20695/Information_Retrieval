@@ -20,44 +20,84 @@ public class Tokenizer {
 		s.close();
 		return stopWords;
 	}
+	
+	
 
-	public HashMap<String,HashMap<String,Integer>> tokenize(HashMap<String,HashMap<String,Integer>>invertedIndex,String FileName,String Path) throws FileNotFoundException
+	public HashMap<String,HashMap<String,Integer>> tokenize(HashMap<String,HashMap<String,Integer>>invertedIndex,ArrayList<String> FileName) throws FileNotFoundException
 	{
 		ArrayList<String> stopWords=getStopWords();
 		HashMap<String,HashMap<String,Integer>> tempIndex=new HashMap<String,HashMap<String,Integer>>();
-		String FilePath=Path.concat("/").concat(FileName);
-
-		Scanner s=new Scanner(new File(FilePath));
-		ArrayList<String>words=new ArrayList<String>();
-		while(s.hasNext())
+		
+		for(int j=0;j<FileName.size();j++)
 		{
-			if(!stopWords.contains(s.next().toLowerCase()))
+			String Individual_File=FileName.get(j);
+			
+			Scanner s=new Scanner(new File(Individual_File));
+			ArrayList<String>words=new ArrayList<String>();
+			
+			while(s.hasNext())
 			{
-				words.add(s.next());
+				String temp_word=s.next();
+				if(!stopWords.contains(temp_word.toLowerCase()))
+				{
+					
+					if(temp_word.substring(temp_word.length()-1).equals("."))
+						temp_word = temp_word.replaceAll(".$", "");
+					if(temp_word.substring(temp_word.length()-1).equals(","))
+						temp_word = temp_word.replaceAll(",$", "");
+					if(temp_word.substring(temp_word.length()-1).equals(";"))
+						temp_word = temp_word.replaceAll(";$", "");
+					
+					words.add(temp_word.toLowerCase());
+				}
 			}
-		}
-		s.close();
-
-		for(int i=0;i<words.size();i++)
-		{
-			if(tempIndex.containsKey(words.get(i)))
+			s.close();
+			
+			ArrayList<String>StemmedWords=new ArrayList<String>();
+			
+			for(int i=0;i<words.size();i++)
+			{
+				Stemmer stemVariable=new Stemmer();
+				stemVariable.add(words.get(i).toCharArray(), words.get(i).length());
+				stemVariable.stem();
+				StemmedWords.add(stemVariable.toString());	
+			}
+			
+			
+			for(int i=0;i<StemmedWords.size();i++)
 			{
 				HashMap<String,Integer>temp=new HashMap<String,Integer>();
-				temp=tempIndex.get(words.get(i));
-				temp.put(FileName, temp.get(FileName)+1);
-				tempIndex.put(words.get(i),temp);
-			}
-			else
-			{
-				HashMap<String,Integer>temp=new HashMap<String,Integer>();
-				temp.put(FileName, 1);
-				tempIndex.put(words.get(i),temp);
+				//Check if the word exists in the HashMap
+				if(tempIndex.containsKey(StemmedWords.get(i))) //Word exists in the HashMap
+				{
+					temp=tempIndex.get(StemmedWords.get(i));
+					
+					if(temp.containsKey(Individual_File))
+					/*Checking if document containing the word is already 
+					 * in the posting list or not.
+					 * If it's in the posting list, get it's frequency, add and store it in the hash table.
+					*/
+					{
+						int freq=temp.get(Individual_File)+1;
+						temp.put(Individual_File, freq);
+					}
+					/*
+					 * If not, now save the document along with it's frequency i.e 1.
+					 */
+					else
+					{
+						temp.put(Individual_File, 1);
+					}
+					tempIndex.put(StemmedWords.get(i),temp);
+				}
+				else
+				{
+					temp.put(Individual_File, 1);
+					tempIndex.put(StemmedWords.get(i),temp);
+				}
 			}
 		}
-
 		return tempIndex;
-
-
 	}
 
 }

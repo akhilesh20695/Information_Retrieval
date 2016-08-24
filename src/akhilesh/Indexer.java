@@ -10,25 +10,38 @@ import java.util.Scanner;
 import java.util.Iterator;
 
 public class Indexer {
+	
+	public static ArrayList<String> printFileNames(String Directory)
+	{
+		ArrayList<String>fileNames=new ArrayList<String>();
+		File[] Files = new File(Directory).listFiles();
+		for(File file: Files){
+			if(file.isFile()){
+				fileNames.add(file.getAbsolutePath());
+				//System.out.println(file.getAbsolutePath());
+			}
+			if(file.isDirectory()){
+				printFileNames(file.getAbsolutePath());
+			}
+		}
+		return fileNames;
+	}
 
 	public static void main(String[] args) throws FileNotFoundException {
 
 		System.out.println("Enter the folder path which have all the files: ");
-		Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
-		String path=sc.next();
-		sc.close();
-		File folder=new File(path);
-		File[] listOfFiles=folder.listFiles(); //All list of files in the folder
-
+		//Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
+		//String path=sc.next();
+		//sc.close();
+		String path="/home/akhilesh/IR_Data";
+		
 		ArrayList<String> FilesList=new ArrayList<String>(); //ArrayList to store all the file names
-
-		for (int i = 0; i < listOfFiles.length; i++) 
+		FilesList=printFileNames(path);
+		
+		/*for(int i=0;i<FilesList.size();i++)
 		{
-			if (listOfFiles[i].isFile()) 
-			{
-				FilesList.add(listOfFiles[i].getName());
-			} 
-		}
+			System.out.println(FilesList.get(i));
+		}*/
 
 		HashMap<String,HashMap<String,Integer>>invertedIndex=new HashMap<String,HashMap<String,Integer>>();  
 
@@ -37,19 +50,18 @@ public class Indexer {
 		  document and frequency.(Posting List)
 		 */
 		Tokenizer obj=new Tokenizer();
-		for(int i=0;i<FilesList.size();i++)
-		{
-			invertedIndex=obj.tokenize(invertedIndex,FilesList.get(i),path);
-		}	
+		invertedIndex=obj.tokenize(invertedIndex,FilesList);	
 
-		//Passing the HashMap through stemmer function to stem the HashMap.
 		
-		//Printing the HashMap.
+		
 		Set FinalWords=invertedIndex.keySet();
-		Iterator iterator=FinalWords.iterator();
-		while(iterator.hasNext())
+		Iterator mainIterator=FinalWords.iterator();
+		//Printing the HashMap.
+		//Set FinalWords=invertedIndex.keySet();
+		//Iterator iterator=FinalWords.iterator();
+		while(mainIterator.hasNext())
 		{
-			String word=(String)iterator.next();
+			String word=(String)mainIterator.next();
 			HashMap<String,Integer>postingList=new HashMap<String,Integer>();
 			postingList=invertedIndex.get(word);
 			
@@ -60,10 +72,11 @@ public class Indexer {
 			{
 				String docName=(String)posting_list_iterator.next();
 				Integer frequency=(Integer)postingList.get(docName);
-				System.out.print(docName+": "+frequency);
+				System.out.print(docName+": "+frequency+"; ");
 			}
 			System.out.print("\n");
 		}
+		System.out.println("Indexer Execution Completed");
 	}
 
 }
