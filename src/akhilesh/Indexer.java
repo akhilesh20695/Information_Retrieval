@@ -15,12 +15,14 @@ public class Indexer {
 	{
 		ArrayList<String>fileNames=new ArrayList<String>();
 		File[] Files = new File(Directory).listFiles();
-		for(File file: Files){
-			if(file.isFile()){
+		for(File file: Files)
+		{
+			if(file.isFile())
+			{
 				fileNames.add(file.getAbsolutePath());
-				//System.out.println(file.getAbsolutePath());
 			}
-			if(file.isDirectory()){
+			if(file.isDirectory())
+			{
 				printFileNames(file.getAbsolutePath());
 			}
 		}
@@ -30,10 +32,10 @@ public class Indexer {
 	public static void main(String[] args) throws FileNotFoundException {
 
 		System.out.println("Enter the folder path which have all the files: ");
-		//Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
-		//String path=sc.next();
-		//sc.close();
-		String path="/home/akhilesh/IR_Data";
+		/*Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
+		String path=sc.next();
+		sc.close();*/
+		String path="/home/akhilesh/data/toi/2008/1/1";
 		
 		ArrayList<String> FilesList=new ArrayList<String>(); //ArrayList to store all the file names
 		FilesList=printFileNames(path);
@@ -53,20 +55,20 @@ public class Indexer {
 		invertedIndex=obj.tokenize(invertedIndex,FilesList);	
 
 		
-		
-		Set FinalWords=invertedIndex.keySet();
-		Iterator mainIterator=FinalWords.iterator();
-		//Printing the HashMap.
-		//Set FinalWords=invertedIndex.keySet();
-		//Iterator iterator=FinalWords.iterator();
+		/*
+		 * Printing the HashMap i.e. Printing the Inverted Index Hash.
+		 */
+		Set<String> FinalWords=invertedIndex.keySet();
+		Iterator<String> mainIterator=FinalWords.iterator();
 		while(mainIterator.hasNext())
 		{
 			String word=(String)mainIterator.next();
 			HashMap<String,Integer>postingList=new HashMap<String,Integer>();
 			postingList=invertedIndex.get(word);
 			
-			Set docs=postingList.keySet();
-			Iterator posting_list_iterator=docs.iterator();
+			Set<String> docs=postingList.keySet();
+			Iterator<String> posting_list_iterator=docs.iterator();
+			
 			System.out.print(word+": ");
 			while(posting_list_iterator.hasNext())
 			{

@@ -38,17 +38,22 @@ public class Tokenizer {
 			while(s.hasNext())
 			{
 				String temp_word=s.next();
-				if(!stopWords.contains(temp_word.toLowerCase()))
+				temp_word = temp_word.replaceAll("\\<.*?>","");
+				//temp_word = temp_word.replaceAll("[^\\w\\s]","");
+				if(temp_word.length() != 0)
 				{
-					
-					if(temp_word.substring(temp_word.length()-1).equals("."))
-						temp_word = temp_word.replaceAll(".$", "");
-					if(temp_word.substring(temp_word.length()-1).equals(","))
-						temp_word = temp_word.replaceAll(",$", "");
-					if(temp_word.substring(temp_word.length()-1).equals(";"))
-						temp_word = temp_word.replaceAll(";$", "");
-					
-					words.add(temp_word.toLowerCase());
+					if(!stopWords.contains(temp_word.toLowerCase()))
+					{
+						
+						if(temp_word.substring(temp_word.length()-1).equals("."))
+							temp_word = temp_word.replaceAll(".$", "");
+						if(temp_word.substring(temp_word.length()-1).equals(","))
+							temp_word = temp_word.replaceAll(",$", "");
+						if(temp_word.substring(temp_word.length()-1).equals(";"))
+							temp_word = temp_word.replaceAll(";$", "");
+						
+						words.add(temp_word.toLowerCase());
+					}
 				}
 			}
 			s.close();
