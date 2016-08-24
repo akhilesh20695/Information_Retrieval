@@ -10,7 +10,7 @@ public class Tokenizer {
 
 	public ArrayList<String> getStopWords() throws FileNotFoundException
 	{
-		String stopWordsPath=System.getProperty("user.dir").concat("/src/akhilesh/stopwords.txt"); //path for stopwords.txt file.
+		String stopWordsPath=new String("StopWords.txt");
 		Scanner s = new Scanner(new File(stopWordsPath));
 		ArrayList<String> stopWords = new ArrayList<String>();// Array List to store all the Stopwords
 		while (s.hasNext())
@@ -38,8 +38,10 @@ public class Tokenizer {
 			while(s.hasNext())
 			{
 				String temp_word=s.next();
+				
 				temp_word = temp_word.replaceAll("\\<.*?>","");
-				//temp_word = temp_word.replaceAll("[^\\w\\s]","");
+				temp_word = temp_word.replaceAll("[^a-zA-Z0-9_-]", "");
+				
 				if(temp_word.length() != 0)
 				{
 					if(!stopWords.contains(temp_word.toLowerCase()))

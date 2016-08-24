@@ -367,7 +367,7 @@ public class Stemmer
     * forcing lower case must be done outside the Stemmer class.
     * Usage: Stemmer file-name file-name ...
     */
-   public static void main(String[] args)
+   /*public static void main(String[] args)
    {
 	   System.out.println("Yo yo");
       char[] w = new char[501];
@@ -391,22 +391,21 @@ public class Stemmer
                     ch = in.read();
                     if (!Character.isLetter((char) ch))
                     {
-                       /* to test add(char ch) */
+                        to test add(char ch) 
                        for (int c = 0; c < j; c++) 
                     	   s.add(w[c]);
 
-                       /* or, to test add(char[] w, int j) */
-                       /* s.add(w, j); */
+                 
 
                        s.stem();
                        {  
                     	   String u;
 
-                          /* and now, to test toString() : */
+                   
                           u = s.toString();
 
-                          /* to test getResultBuffer(), getResultLength() : */
-                          /* u = new String(s.getResultBuffer(), 0, s.getResultLength()); */
+                          to test getResultBuffer(), getResultLength() : 
+                           u = new String(s.getResultBuffer(), 0, s.getResultLength()); 
 
                           System.out.print(u);
                        }
@@ -427,5 +426,5 @@ public class Stemmer
       {  System.out.println("file " + args[i] + " not found");
          break;
       }
-   }
+   }*/
 }

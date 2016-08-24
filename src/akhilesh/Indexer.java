@@ -32,10 +32,10 @@ public class Indexer {
 	public static void main(String[] args) throws FileNotFoundException {
 
 		System.out.println("Enter the folder path which have all the files: ");
-		/*Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
+		Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
 		String path=sc.next();
-		sc.close();*/
-		String path="/home/akhilesh/data/toi/2008/1/1";
+		sc.close();
+		//String path="/home/akhilesh/data/toi/2008/1/1";
 		
 		ArrayList<String> FilesList=new ArrayList<String>(); //ArrayList to store all the file names
 		FilesList=printFileNames(path);
@@ -44,7 +44,6 @@ public class Indexer {
 		{
 			System.out.println(FilesList.get(i));
 		}*/
-
 		HashMap<String,HashMap<String,Integer>>invertedIndex=new HashMap<String,HashMap<String,Integer>>();  
 
 		/*Calling tokenize function of tokenizer class to tokenize the file and 
