@@ -10,10 +10,10 @@ import java.util.Scanner;
 import java.util.Iterator;
 
 public class Indexer {
+	static ArrayList<String>fileNames=new ArrayList<String>();
 	
 	public static ArrayList<String> printFileNames(String Directory)
 	{
-		ArrayList<String>fileNames=new ArrayList<String>();
 		File[] Files = new File(Directory).listFiles();
 		for(File file: Files)
 		{
@@ -31,19 +31,15 @@ public class Indexer {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		System.out.println("Enter the folder path which have all the files: ");
-		Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
+		//System.out.println("Enter the folder path which have all the files: ");
+		/*Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
 		String path=sc.next();
-		sc.close();
-		//String path="/home/akhilesh/data/toi/2008/1/1";
-		
+		sc.close();*/
+		String path="/home/akhilesh/data/toi/2009/1";
+		System.out.println("Indexing Files");
 		ArrayList<String> FilesList=new ArrayList<String>(); //ArrayList to store all the file names
 		FilesList=printFileNames(path);
 		
-		/*for(int i=0;i<FilesList.size();i++)
-		{
-			System.out.println(FilesList.get(i));
-		}*/
 		HashMap<String,HashMap<String,Integer>>invertedIndex=new HashMap<String,HashMap<String,Integer>>();  
 
 		/*Calling tokenize function of tokenizer class to tokenize the file and 

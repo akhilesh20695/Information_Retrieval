@@ -10,7 +10,7 @@ public class Tokenizer {
 
 	public ArrayList<String> getStopWords() throws FileNotFoundException
 	{
-		String stopWordsPath=new String("StopWords.txt");
+		String stopWordsPath=new String("/home/akhilesh/stopwordslist.txt");
 		Scanner s = new Scanner(new File(stopWordsPath));
 		ArrayList<String> stopWords = new ArrayList<String>();// Array List to store all the Stopwords
 		while (s.hasNext())
@@ -31,6 +31,10 @@ public class Tokenizer {
 		for(int j=0;j<FileName.size();j++)
 		{
 			String Individual_File=FileName.get(j);
+			
+			String tempName=new File(Individual_File).getName();
+			
+			System.out.println("Indexing File: "+Individual_File);
 			
 			Scanner s=new Scanner(new File(Individual_File));
 			ArrayList<String>words=new ArrayList<String>();
@@ -79,27 +83,27 @@ public class Tokenizer {
 				{
 					temp=tempIndex.get(StemmedWords.get(i));
 					
-					if(temp.containsKey(Individual_File))
+					if(temp.containsKey(tempName))
 					/*Checking if document containing the word is already 
 					 * in the posting list or not.
 					 * If it's in the posting list, get it's frequency, add and store it in the hash table.
 					*/
 					{
-						int freq=temp.get(Individual_File)+1;
-						temp.put(Individual_File, freq);
+						int freq=temp.get(tempName)+1;
+						temp.put(tempName, freq);
 					}
 					/*
 					 * If not, now save the document along with it's frequency i.e 1.
 					 */
 					else
 					{
-						temp.put(Individual_File, 1);
+						temp.put(tempName, 1);
 					}
 					tempIndex.put(StemmedWords.get(i),temp);
 				}
 				else
 				{
-					temp.put(Individual_File, 1);
+					temp.put(tempName, 1);
 					tempIndex.put(StemmedWords.get(i),temp);
 				}
 			}
