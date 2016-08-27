@@ -6,13 +6,13 @@ import java.io.*;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.util.Iterator;
 
 public class Indexer {
-	static ArrayList<String>fileNames=new ArrayList<String>();
+	static ArrayList<String>fileNames=new ArrayList<String>(); //Store all the filename in an arraylist
 	
-	public static ArrayList<String> printFileNames(String Directory)
+	public static void storeFileNames(String Directory)
 	{
 		File[] Files = new File(Directory).listFiles();
 		for(File file: Files)
@@ -23,10 +23,9 @@ public class Indexer {
 			}
 			if(file.isDirectory())
 			{
-				printFileNames(file.getAbsolutePath());
+				storeFileNames(file.getAbsolutePath());
 			}
 		}
-		return fileNames;
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -37,8 +36,7 @@ public class Indexer {
 		sc.close();*/
 		String path="/home/akhilesh/data/toi/2009/1";
 		System.out.println("Indexing Files");
-		ArrayList<String> FilesList=new ArrayList<String>(); //ArrayList to store all the file names
-		FilesList=printFileNames(path);
+		storeFileNames(path);
 		
 		HashMap<String,HashMap<String,Integer>>invertedIndex=new HashMap<String,HashMap<String,Integer>>();  
 
@@ -47,7 +45,7 @@ public class Indexer {
 		  document and frequency.(Posting List)
 		 */
 		Tokenizer obj=new Tokenizer();
-		invertedIndex=obj.tokenize(invertedIndex,FilesList);	
+		invertedIndex=obj.tokenize(fileNames);	
 
 		
 		/*
@@ -55,6 +53,7 @@ public class Indexer {
 		 */
 		Set<String> FinalWords=invertedIndex.keySet();
 		Iterator<String> mainIterator=FinalWords.iterator();
+		
 		while(mainIterator.hasNext())
 		{
 			String word=(String)mainIterator.next();

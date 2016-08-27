@@ -8,24 +8,26 @@ import java.util.Scanner;
 
 public class Tokenizer {
 
-	public ArrayList<String> getStopWords() throws FileNotFoundException
+	static ArrayList<String> stopWords=new ArrayList<String>();
+	
+	//Function to get all the stopwords from stopwords file and store it in an ArrayList
+	public void getStopWords() throws FileNotFoundException
 	{
 		String stopWordsPath=new String("/home/akhilesh/stopwordslist.txt");
 		Scanner s = new Scanner(new File(stopWordsPath));
-		ArrayList<String> stopWords = new ArrayList<String>();// Array List to store all the Stopwords
+		//ArrayList<String> stopWords = new ArrayList<String>();// Array List to store all the Stopwords
 		while (s.hasNext())
 		{
-			stopWords.add(s.next());//reading stopwords file and storing each stopword in an arraylist
+			stopWords.add(s.next().toLowerCase());//reading stopwords file and storing each stopword in an arraylist
 		}
 		s.close();
-		return stopWords;
 	}
 	
 	
 
-	public HashMap<String,HashMap<String,Integer>> tokenize(HashMap<String,HashMap<String,Integer>>invertedIndex,ArrayList<String> FileName) throws FileNotFoundException
+	public HashMap<String,HashMap<String,Integer>> tokenize(ArrayList<String> FileName) throws FileNotFoundException
 	{
-		ArrayList<String> stopWords=getStopWords();
+		getStopWords();
 		HashMap<String,HashMap<String,Integer>> tempIndex=new HashMap<String,HashMap<String,Integer>>();
 		
 		for(int j=0;j<FileName.size();j++)
@@ -37,7 +39,9 @@ public class Tokenizer {
 			System.out.println("Indexing File: "+Individual_File);
 			
 			Scanner s=new Scanner(new File(Individual_File));
-			ArrayList<String>words=new ArrayList<String>();
+			
+			//ArrayList<String>words=new ArrayList<String>();
+			ArrayList<String>StemmedWords=new ArrayList<String>();
 			
 			while(s.hasNext())
 			{
@@ -58,22 +62,17 @@ public class Tokenizer {
 						if(temp_word.substring(temp_word.length()-1).equals(";"))
 							temp_word = temp_word.replaceAll(";$", "");
 						
-						words.add(temp_word.toLowerCase());
+						//words.add(temp_word.toLowerCase());
+						Stemmer stemVariable=new Stemmer();
+						stemVariable.add(temp_word.toCharArray(), temp_word.length());
+						stemVariable.stem();
+						StemmedWords.add(stemVariable.toString().toLowerCase());
+						
 					}
 				}
 			}
+			
 			s.close();
-			
-			ArrayList<String>StemmedWords=new ArrayList<String>();
-			
-			for(int i=0;i<words.size();i++)
-			{
-				Stemmer stemVariable=new Stemmer();
-				stemVariable.add(words.get(i).toCharArray(), words.get(i).length());
-				stemVariable.stem();
-				StemmedWords.add(stemVariable.toString());	
-			}
-			
 			
 			for(int i=0;i<StemmedWords.size();i++)
 			{

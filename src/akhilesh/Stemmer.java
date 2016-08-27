@@ -34,7 +34,7 @@ package akhilesh;
 
 */
 
-import java.io.*;
+//import java.io.*;
 
 /**
   * Stemmer, implementing the Porter Stemming Algorithm
