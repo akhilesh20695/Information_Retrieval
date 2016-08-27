@@ -28,7 +28,7 @@ public class Indexer {
 		}
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 
 		//System.out.println("Enter the folder path which have all the files: ");
 		/*Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
@@ -53,7 +53,15 @@ public class Indexer {
 		 */
 		Set<String> FinalWords=invertedIndex.keySet();
 		Iterator<String> mainIterator=FinalWords.iterator();
-		
+		Writer writer=null;
+		try
+		{
+			writer=new BufferedWriter(new FileWriter("/home/akhilesh/indexer_result.txt"));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		while(mainIterator.hasNext())
 		{
 			String word=(String)mainIterator.next();
@@ -63,14 +71,14 @@ public class Indexer {
 			Set<String> docs=postingList.keySet();
 			Iterator<String> posting_list_iterator=docs.iterator();
 			
-			System.out.print(word+": ");
+			writer.write(word+": ");
 			while(posting_list_iterator.hasNext())
 			{
 				String docName=(String)posting_list_iterator.next();
 				Integer frequency=(Integer)postingList.get(docName);
-				System.out.print(docName+": "+frequency+"; ");
+				writer.write(docName+": "+frequency+";    ");
 			}
-			System.out.print("\n");
+			writer.write("\n");
 		}
 		System.out.println("Indexer Execution Completed");
 	}
