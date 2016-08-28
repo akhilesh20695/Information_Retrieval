@@ -28,7 +28,8 @@ public class Indexer {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException 
+	{
 
 		//System.out.println("Enter the folder path which have all the files: ");
 		/*Scanner sc=new Scanner(System.in); // path to the corpus which have to be indexed
@@ -82,5 +83,4 @@ public class Indexer {
 		}
 		System.out.println("Indexer Execution Completed");
 	}
-
 }
