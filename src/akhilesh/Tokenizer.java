@@ -25,16 +25,16 @@ public class Tokenizer {
 	
 	
 
-	public HashMap<String,HashMap<String,Integer>> tokenize(ArrayList<String> FileName) throws FileNotFoundException
+	public HashMap<String,HashMap<Integer,Integer>> tokenize(ArrayList<String> FileName) throws FileNotFoundException
 	{
 		getStopWords();
-		HashMap<String,HashMap<String,Integer>> tempIndex=new HashMap<String,HashMap<String,Integer>>();
+		HashMap<String,HashMap<Integer,Integer>> tempIndex=new HashMap<String,HashMap<Integer,Integer>>();
 		
 		for(int j=0;j<FileName.size();j++)
 		{
 			String Individual_File=FileName.get(j);
 			
-			String tempName=new File(Individual_File).getName();
+			int tempName=j;
 			
 			System.out.println("Indexing File: "+Individual_File);
 			
@@ -76,7 +76,7 @@ public class Tokenizer {
 			
 			for(int i=0;i<StemmedWords.size();i++)
 			{
-				HashMap<String,Integer>temp=new HashMap<String,Integer>();
+				HashMap<Integer,Integer>temp=new HashMap<Integer,Integer>();
 				//Check if the word exists in the HashMap
 				if(tempIndex.containsKey(StemmedWords.get(i))) //Word exists in the HashMap
 				{
